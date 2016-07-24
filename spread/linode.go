@@ -69,6 +69,10 @@ func (s *linodeServer) Address() string {
 	return s.d.Address
 }
 
+func (s *linodeServer) Port() int {
+	return 22
+}
+
 func (s *linodeServer) System() string {
 	return s.d.System
 }

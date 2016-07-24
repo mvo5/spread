@@ -17,6 +17,7 @@ type Provider interface {
 type Server interface {
 	Provider() Provider
 	Address() string
+	Port() int
 	Discard() error
 	System() string
 	ReuseData() []byte
@@ -41,6 +42,7 @@ type UnknownServer struct {
 func (s *UnknownServer) String() string     { return "server " + s.Addr }
 func (s *UnknownServer) Provider() Provider { return nil }
 func (s *UnknownServer) Address() string    { return s.Addr }
+func (s *UnknownServer) Port() int          { return 22 }
 func (s *UnknownServer) Discard() error     { return nil }
 func (s *UnknownServer) ReuseData() []byte  { return nil }
 func (s *UnknownServer) System() string     { return "" }

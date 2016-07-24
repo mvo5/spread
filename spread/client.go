@@ -28,7 +28,8 @@ func Dial(server Server, password string) (*Client, error) {
 		Auth:    []ssh.AuthMethod{ssh.Password(password)},
 		Timeout: 10 * time.Second,
 	}
-	sshc, err := ssh.Dial("tcp", server.Address()+":22", config)
+	addr := fmt.Sprintf("%s:%d", server.Address(), server.Port())
+	sshc, err := ssh.Dial("tcp", addr, config)
 	if err != nil {
 		return nil, fmt.Errorf("cannot connect to %s: %v", server, err)
 	}
@@ -455,7 +456,7 @@ func (sbuf *safeBuffer) Since(offset int) (data []byte, len int) {
 
 	data = sbuf.buf.Bytes()
 	copy := true
-	for i := offset-1; i > 1; i-- {
+	for i := offset - 1; i > 1; i-- {
 		if data[i] == '\n' {
 			data = append(unchangedMarker, data[i:]...)
 			copy = false

@@ -663,6 +663,46 @@ Some links to make your life easier:
   * [Users and permissions](https://manager.linode.com/user)
   * [API keys](https://manager.linode.com/profile/api)
 
+<a name="qemu"/>
+QEMU backend
+-----------
+
+The QEMU backend depends on the [QEMU](http://www.qemu.org) emulator
+available from various sources and allows you to run tasks
+using the local system alone.
+
+Setup QEMU and a initial ubuntu VM image with:
+```
+sudo apt update
+sudo apt install qemu-kvm autopkgtest
+mkdir ~/VM
+adt-buildvm-ubuntu-cloud -o ~/VM
+```
+
+This reuses the excellent `adt-buildvm-ubuntu-cloud` script from
+autopkgtest that will create an image that is tailored to our
+needs. Note that we really do not need much from our image, a default
+user/password is enough so that the allocation can customize the root
+login.
+
+Then, setting up the backend in your project file is as trivial as:
+```
+backends:
+    qemu:
+        systems:
+            - adt-xenial-amd64-cloud.img
+```
+
+System names are just loaded from the $SPREAD_QEMU_VM folder (or
+~/VM if no such folder is specified).
+
+The system assumes it can do an initial setup using a user "ubuntu"
+with the password "ubuntu". The user must be able to run sudo commands
+without a password prompt. Note that this can be customized with the
+SPREAD_QEMU_USER and SPREAD_QEMU_PASSWORD environment. It is also
+planned to allow customizing this via a ssh key.
+
+
 
 <a name="parallelism"/>
 More on parallelism

@@ -47,6 +47,10 @@ func (s *lxdServer) Address() string {
 	return s.d.Address
 }
 
+func (s *lxdServer) Port() int {
+	return 22
+}
+
 func (s *lxdServer) System() string {
 	return s.d.System
 }
